@@ -87,6 +87,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	static HyperCube hcube;
 	static CELL16 cell16;
 	static CELL24 cell24;
+	static int flag = 1;
 
 	//static Cube cube[6][10][10];
 	//static Function func;
@@ -96,61 +97,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		Observer::Observer();
 		hPen = CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
-		
-		/*for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[0][i][j] = Cube(Point3D(850, -400 + 80 * i, -400 + 80 * j), 20.0);
-			}
-		}
 
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[1][i][j] = Cube(Point3D(-850, -400 + 80 * i, -400 + 80 * j), 20.0);
-			}
-		}
-
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[2][i][j] = Cube(Point3D(-400 + 80 * i, 850, -400 + 80 * j), 20.0);
-			}
-		}
-
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[3][i][j] = Cube(Point3D(-400 + 80 * i, -850, -400 + 80 * j), 20.0);
-			}
-		}
-
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[4][i][j] = Cube(Point3D(-400 + 80 * i, -400 + 80 * j, -850), 20.0);
-			}
-		}
-
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				cube[5][i][j] = Cube(Point3D(-400 + 80 * i, -400 + 80 * j, 850), 20.0);
-			}
-		}*/
-		
-		//hcube = HyperCube(Point4D(0,0,0,0), 10);
-		//cell16 = CELL16(Point4D(0,0,0,0), 10);
+		hcube = HyperCube(Point4D(0,0,0,0), 10);
+		cell16 = CELL16(Point4D(0,0,0,0), 10);
 		cell24 = CELL24(Point4D(0,0,0,0), 10);
-		//func = Function(Point3D(0, 0, 0));
 		InvalidateRect(hWnd, NULL, FALSE);
-		//SetTimer(hWnd, 1, 10, 0);
+		SetTimer(hWnd, 1, 100, 0);
 		break;
 
 	case WM_TIMER:
@@ -166,23 +118,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		OldBit = (HBITMAP)SelectObject(MemDC, hBit);
 		oldPen = (HPEN)SelectObject(MemDC, hPen);
 		
-		/*
-		for(int k=0; k<6; k++)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				for (int j = 0; j < 10; j++)
-				{
-					cube[k][i][j].Update(MemDC);
-				}
-			}
-		}
-		*/
-		//hcube.Update(MemDC);
-		//cell16.Update(MemDC);
-		cell24.Update(MemDC);
-		//func.Update(MemDC);
-		//func.RayTrace(MemDC);
+
+		if(flag==1)
+			hcube.Update(MemDC);
+		else if(flag==2)
+			cell16.Update(MemDC);
+		else
+			cell24.Update(MemDC);
 
 		BitBlt(hdc, 0, 0, crt.right, crt.bottom, MemDC, 0, 0, SRCCOPY);
 		SelectObject(MemDC, OldBit);
@@ -197,35 +139,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		Observer::Width = LOWORD(lParam);
 		Observer::Height = HIWORD(lParam);
-		InvalidateRect(hWnd, NULL, FALSE);//
+		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 
 	case WM_KEYDOWN:
-		Observer::Transform(wParam);
-		
-		/*
-		for(int k=0; k<6; k++)
+		//Observer::Transform(wParam);
+		switch(wParam)
 		{
-			for (int i = 0; i < 10; i++)
-			{
-				for (int j = 0; j < 10; j++)
-				{
-					cube[k][i][j].Rotate(wParam);
-				}
-			}
+			case '1':
+				flag = 1;
+				break;
+			case '2':
+				flag = 2;
+				break;
+			case '3':
+				flag = 3;
+				break;
 		}
-		*/
-		//hcube.Rotate(wParam);
-		//cell16.Rotate(wParam);
-		cell24.Rotate(wParam);
-		//func.Rotate(wParam);
-		//func.TranslateLight(wParam);
-		InvalidateRect(hWnd, NULL, FALSE);//
+		if(flag==1)
+			hcube.Rotate(wParam);
+		else if(flag==2)
+			cell16.Rotate(wParam);
+		else
+			cell24.Rotate(wParam);
+		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 
 	case WM_MOUSEWHEEL:
 		Observer::Scroll(GET_WHEEL_DELTA_WPARAM(wParam));
-		InvalidateRect(hWnd, NULL, FALSE);//
+		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 
 	case WM_DESTROY:
