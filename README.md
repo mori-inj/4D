@@ -11,6 +11,6 @@ k: yw rotation
 l: zw rotation  
 shift + u,i,o,j,k,l: reverse rotation  
   
-![alt tag](https://github.com/mori-inj/4D/tree/master/hypercube.png)  
-![alt tag](https://github.com/mori-inj/4D/tree/master/16cell.png)  
-![alt tag](https://github.com/mori-inj/4D/tree/master/24cell.png)  
+![alt tag](https://github.com/mori-inj/4D/blob/master/hypercube.PNG)  
+![alt tag](https://github.com/mori-inj/4D/blob/master/16cell.PNG)  
+![alt tag](https://github.com/mori-inj/4D/blob/master/24cell.PNG)  
