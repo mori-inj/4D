@@ -13,7 +13,7 @@ shift + u,i,o,j,k,l: reverse rotation
 
 * 4차원 상의 정다포체를 3차원에 투영한 것을 3D 프로젝트를 이용해 다시 화면상에 출력
 * winapi, C++ 사용
-* 이미지 
+* 이미지  
 ![alt tag](https://github.com/mori-inj/4D/blob/master/hypercube.PNG)  
 ![alt tag](https://github.com/mori-inj/4D/blob/master/16cell.PNG)  
 ![alt tag](https://github.com/mori-inj/4D/blob/master/24cell.PNG)  
